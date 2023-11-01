@@ -11,6 +11,7 @@ import { HvSearchInput } from '../input'
 import { MdSpaceDashboard } from "react-icons/md"
 import { BiSolidOffer, BiSolidUserCircle, BiSolidContact } from "react-icons/bi"
 import { SiMoneygram } from "react-icons/si"
+import { useAuthContext } from '@/modules/auth/context'
 
 const { Content, Footer, Sider } = Layout
 
@@ -22,6 +23,9 @@ interface IProps {
 }
 
 export const HubLayout: React.FC<IProps> = ({ children, selectedKeys, headerSubTitle, headerTitle }) => {
+  
+  const {firebaseAuth} = useAuthContext()
+  
   return (
     <>
       <ConfigProvider theme={{ token: { fontFamily: "" } }}>
@@ -90,6 +94,8 @@ export const HubLayout: React.FC<IProps> = ({ children, selectedKeys, headerSubT
 }
 
 const Header = ({ headerSubTitle, headerTitle }: any) => {
+  const {firebaseAuth} = useAuthContext()
+
   return (
     <div className='flex justify-between items-cente'>
       <div>
@@ -101,10 +107,10 @@ const Header = ({ headerSubTitle, headerTitle }: any) => {
         <BsSearch className="text-lg"/>
         <BsBell className="text-xl" />
         <div className='flex items-end gap-3'>
-          <Image src={UserImg.src} alt="user" width={40} height={40} className='rounded-full' />
+          <Image src={firebaseAuth?.currentUser?.photoURL} alt="user" width={40} height={40} className='rounded-full' />
           <div>
-            <h1 className='font-bold text-base'>Paul Andrew</h1>
-            <p className='text-[13px] text-colors-cadet'>paul@gmail.com</p>
+            <h1 className='font-bold text-base'>{firebaseAuth?.currentUser?.displayName}</h1>
+            <p className='text-[13px] text-colors-cadet'>{firebaseAuth?.currentUser?.email}</p>
           </div>
         </div>
       </div>

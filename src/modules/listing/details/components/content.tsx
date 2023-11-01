@@ -61,9 +61,9 @@ export const DetailsContent: FC<IProps> = ({ listing, agent = false }) => {
     })
   }
 
-  useEffect(() => {
-    checkChatRequestStatus(listing.agent.id)
-  }, [])
+  // useEffect(() => {
+  //   checkChatRequestStatus(listing.agent.id)
+  // }, [])
 
   return (
     <div className="mb-20">

@@ -12,15 +12,17 @@ import Link from 'next/link'
 
 interface IProps {
   item: IListing
+  detailUrl: string
 }
 
-export const ListItem: FC<IProps> = ({ item }) => {
+export const ListItem: FC<IProps> = ({ item, detailUrl }) => {
   const router = useRouter()
 
   return (
     <Link
-      href={`/browse/listings/sale/${item.id}`}
-      className="bg-white rounded-xl w-[300px] shadow-md hover:shadow-lg duration-150 ease-in overflow-hidden"
+      href={detailUrl}
+      // href={`/browse/listings/sale/${item.id}`}
+      className="bg-white rounded-xl w-[300px] hover:text-inherit shadow-md hover:shadow-lg duration-150 ease-in overflow-hidden"
     >
       <div className="w-full h-[200px] relative">
         <Image

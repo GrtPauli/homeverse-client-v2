@@ -16,21 +16,23 @@ export const ListingDetailPage: FC<IProps> = ({ id, agent = false }) => {
   const { initLoading, getListing, listing } = useListingContext()
   const { firebaseInitLoading } = useAuthContext()
 
-  useEffect(() => {
-    if (firebaseInitLoading == false) {
-      getListing(id)
-    }
-  }, [firebaseInitLoading])
+  // useEffect(() => {
+  //   if (firebaseInitLoading == false) {
+  //     getListing(id)
+  //   }
+  // }, [firebaseInitLoading])
 
   return (
     <>
-      {initLoading && (
+      {/* {initLoading && (
         <div className="flex h-screen w-full justify-center items-center">
           <HvLoader loading={initLoading} size="lg" />
         </div>
-      )}
+      )} */}
 
-      {!initLoading && (
+      <DetailsContent listing={listing} />
+
+      {/* {!initLoading && (
         <>
           {agent ? (
             <AgentHubLayout containerClassName="pt-[100px">
@@ -51,7 +53,7 @@ export const ListingDetailPage: FC<IProps> = ({ id, agent = false }) => {
             </div>
           )}
         </>
-      )}
+      )} */}
     </>
   )
 }

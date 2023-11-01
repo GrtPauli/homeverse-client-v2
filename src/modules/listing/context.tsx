@@ -11,7 +11,7 @@ import {
 import useHvNotification from '@/hooks/notification'
 import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 import { uid } from 'uid'
-import { addDoc, collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 import { useAuthContext } from '../auth/context'
 
 interface IListingState {
@@ -19,7 +19,7 @@ interface IListingState {
   loading: boolean
   filterLoading: boolean
   createListing: (listing: IListing, photos: any[]) => Promise<void>
-  getUserListings: (filter: IUserListingFilter) => Promise<void>
+  getUserListings: (filter?: IUserListingFilter) => Promise<void>
   getListings: (filter?: IListingFilter) => Promise<void>
   getListing: (id: string, noLoading?: boolean) => Promise<void>
   updateListing: (id: string, listing: Partial<IListing>) => Promise<void>
@@ -78,7 +78,7 @@ const ListingContextProvider: FC<IProps> = ({ children }) => {
   const getListingQuery = useGetListing((rs: any) => {})
   const getListingsQuery = useGetListings((rs: any) => {})
   const updateListingQuery = useUpdateListing((rs: any) => {})
-  const { firestoreDb } = useAuthContext()
+  const { firestoreDb, firebaseAuth } = useAuthContext()
   const router = useRouter()
   const { errorMsg, notificationContext, successMsg } = useHvNotification()
 
@@ -160,24 +160,43 @@ const ListingContextProvider: FC<IProps> = ({ children }) => {
   //   })
   // }
 
-  const getUserListings = (filter: IUserListingFilter): Promise<void> => {
-    setLoading(true)
+  // const getUserListings = (filter: IUserListingFilter): Promise<void> => {
+  //   setLoading(true)
+  //   return new Promise((resolve, reject) => {
+  //     getUserListingsQuery[0]({
+  //       variables: { filter },
+  //     })
+  //       .then(async (rs) => {
+  //         if (rs?.data?.getUserListings) {
+  //           setUserListings(rs?.data?.getUserListings)
+  //           resolve()
+  //         }
+  //         reject()
+  //       })
+  //       .finally(() =>
+  //         setTimeout(() => {
+  //           setLoading(false)
+  //         }, 3000),
+  //       )
+  //   })
+  // }
+
+  const getUserListings = (filter?: IUserListingFilter): Promise<void> => {
+    let listingsArr: any[] = []
+    filter ? setFilterLoading(true) : setInitLoading(true)
+    const listingsRef = collection(firestoreDb, 'listings')
+    const q = query(listingsRef, where('agentId', '==', firebaseAuth.currentUser.uid))
+
     return new Promise((resolve, reject) => {
-      getUserListingsQuery[0]({
-        variables: { filter },
-      })
-        .then(async (rs) => {
-          if (rs?.data?.getUserListings) {
-            setUserListings(rs?.data?.getUserListings)
-            resolve()
-          }
-          reject()
+      getDocs(q).then((data) => {
+        data.forEach((doc) => {
+          listingsArr = [...listingsArr, { id: doc.id, ...doc.data() }]
         })
-        .finally(() =>
-          setTimeout(() => {
-            setLoading(false)
-          }, 3000),
-        )
+
+        filter ? setFilterLoading(false) : setInitLoading(false)
+        setListings(listingsArr)
+        resolve()
+      })
     })
   }
 
@@ -216,7 +235,7 @@ const ListingContextProvider: FC<IProps> = ({ children }) => {
   //   })
   // }
 
-  const getListing = (id: string, noLoading?: boolean): Promise<void> => {
+  const getListing = async (id: string, noLoading?: boolean): Promise<void> => {
     noLoading ? setInitLoading(false) : setInitLoading(true)
     return new Promise((resolve, reject) => {
       const listingRef = doc(firestoreDb, 'listings', id)
@@ -225,7 +244,7 @@ const ListingContextProvider: FC<IProps> = ({ children }) => {
           setListing({
             id: rs.id,
             ...rs.data(),
-          })
+          })          
           resolve()
         })
         .catch((err) => reject(err))
