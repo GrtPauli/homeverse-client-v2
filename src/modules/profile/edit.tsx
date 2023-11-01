@@ -7,7 +7,7 @@ import {
   LocationSelector,
   HvTextInput,
 } from '@/components'
-import { AgentHubLayout } from '@/components/layout/hub'
+import { AgentHubLayout } from '@/components/layout/hub2'
 import { Formik, FormikProps } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useProfileContext } from './context'

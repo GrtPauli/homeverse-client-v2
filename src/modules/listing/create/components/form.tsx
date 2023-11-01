@@ -96,15 +96,15 @@ export const ListingForm: FC<IProps> = ({ id }) => {
 
   return (
     <div className="w-full">
-      <div className="mb-8">
+      {/* <div className="mb-8">
         <h1 className="font-black text-3xl mb-1">{listing ? 'Create Listing' : 'Edit Listing'}</h1>
         <p className="text-sm text-colors-cadet mb-5">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore nam illo aliquid
           asperiores veniam quia nesciunt neque magni, eveniet nulla?
         </p>
-      </div>
+      </div> */}
 
-      <div className="w-full bg-light-white rounded-lg shadow-lg px-10 pb-8 pt-1">
+      <div className="w-full bg-light-white rounded-lg shadow-lg p-8 pt-2">
         <Formik
           initialValues={{
             price: listing?.price || null,
@@ -146,7 +146,7 @@ export const ListingForm: FC<IProps> = ({ id }) => {
           {(props: FormikProps<any>) => (
             <Form className="mt-5">
               <div className="mb-10">
-                <h1 className="font-bold text-lg border-b pb-3 mb-5">Primary Info</h1>
+                <h1 className="font-black text-lg border-b pb-3 mb-5">Primary Info</h1>
                 <div className="flex justify-between gap-8 mb-5">
                   <HvTextInput
                     label="Set Your Price"

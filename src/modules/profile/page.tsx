@@ -3,7 +3,7 @@ import React, { FC, useEffect } from 'react'
 import { useProfileContext } from './context'
 import { useAuthContext } from '../auth/context'
 import { HvLoader } from '@/components'
-import { AgentHubLayout } from '@/components/layout/hub'
+import { AgentHubLayout } from '@/components/layout/hub2'
 import { ProfileContent } from './components'
 
 interface IProps {}

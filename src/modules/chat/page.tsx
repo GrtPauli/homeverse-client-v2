@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ChatBox, ChatRoom, ConversationItem, IntroBox } from './components'
-import { AgentHubLayout } from '@/components/layout/hub'
+import { AgentHubLayout } from '@/components/layout/hub2'
 import { useContactContext } from '../contacts/context'
 import { useHvFirebaseContext } from '../firebase/context'
 import { useChatContext } from './context'

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AuthLayout, EmailAndPasswordForm, FormFooter } from './components'
+import { AuthLayout, Signin, FormFooter, NewAccount } from './components'
 import Image from 'next/image'
 import Logo from '../../assets/images/logo.png'
 import { ConfigProvider, Tabs, TabsProps } from 'antd'
@@ -15,12 +15,13 @@ const AuthPage = ({ id }: any) => {
     {
       key: 'signin',
       label: <p className="font-medium">Sign In</p>,
-      children: <EmailAndPasswordForm id="signin" />,
+      children: <Signin id="signin"/>,
     },
     {
       key: 'signup',
       label: <p className="font-medium">New Account</p>,
-      children: <EmailAndPasswordForm id="signup" />,
+      children: <NewAccount id="signup"/>,
+      // children: <EmailAndPasswordForm id="signup" />,
     },
   ]
 
@@ -42,7 +43,7 @@ const AuthPage = ({ id }: any) => {
           <Tabs onChange={(key) => setTab(key)} defaultActiveKey={id} items={items} />
         </ConfigProvider>
 
-        <FormFooter id={tab} />
+        {/* <FormFooter id={tab} /> */}
       </div>
     </AuthLayout>
   )

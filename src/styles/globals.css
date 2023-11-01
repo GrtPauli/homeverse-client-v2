@@ -348,7 +348,7 @@ input[type='number'] {
   font-size: 15px !important;
 } */
 
-/* .ant-layout-sider{
+.ant-layout-sider{
   background-color: #0B2C3C !important;
 }
 .ant-menu-item,
@@ -356,14 +356,19 @@ input[type='number'] {
   color: white !important;
   background-color: #0B2C3C !important;
   padding-left: 20px !important;
-  height: 40px !important;
-  margin-bottom: 3px !important;
+  height: 42px !important;
+  margin-bottom: 8px !important;
+  border-radius: 10px !important;
+}
+.ant-menu-item:hover {
+  background-color: #FF5A3D !important;
 }
 .ant-menu-submenu-title{
   margin-block: 0px !important;
 }
 .ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{
-  color: #FF5A3D !important;
+  background-color: #FF5A3D !important;
+  color: #fff !important;
 }
 .ant-menu-submenu{
   margin-bottom: 3px !important;
@@ -378,8 +383,10 @@ input[type='number'] {
   height: 38px !important;
 }
 .ant-menu-sub .ant-menu-item.ant-menu-item-selected {
-  background-color: rgba(0, 0, 0, 0.06) !important;
-  color: #484848 !important;
+  color: #FF5A3D !important;
+  opacity: 1 !important;
+  font-weight: bold !important;
+  /* background-color: rgba(0, 0, 0, 0.192) !important; */
 }
 .ant-menu-item-selected {
   background-color: #FF5A3D !important;
@@ -394,4 +401,4 @@ input[type='number'] {
   min-width: 100px !important;
   width: 100px !important;
   max-width: 100px !important;
-} */
+}

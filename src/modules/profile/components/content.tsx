@@ -1,5 +1,5 @@
 import { ApFileInput, HvButton, HvModal } from '@/components'
-import { AgentHubLayout } from '@/components/layout/hub'
+import { AgentHubLayout } from '@/components/layout/hub2'
 import { useAuthContext } from '@/modules/auth/context'
 import { useProfileContext } from '@/modules/profile/context'
 import { Empty, Image, Progress } from 'antd'

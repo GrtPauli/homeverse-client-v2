@@ -1,4 +1,4 @@
-import { AgentHubLayout } from '@/components/layout/hub'
+import { AgentHubLayout } from '@/components/layout/hub2'
 import React, { FC, useEffect } from 'react'
 import { ConfigProvider, Empty, Tabs } from 'antd'
 import type { TabsProps } from 'antd'

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useAuthContext } from '../context'
 import { IAuthUserInput } from '../model'
 
-export const EmailAndPasswordForm = ({ id }: any) => {
+export const Signin = ({ id }: any) => {
   const { authenticateWithEmailAndPassword, loading } = useAuthContext()
 
   const handleSubmit = (val: IAuthUserInput) => {

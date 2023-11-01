@@ -9,7 +9,7 @@ import {
 import { Form, Formik, FormikProps } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { HomeType, IListingImage } from '@/modules/listing/model'
-import { AgentHubLayout } from '@/components/layout/hub'
+import { AgentHubLayout } from '@/components/layout/hub2'
 import { useListingContext } from '../context'
 import { useAuthContext } from '@/modules/auth/context'
 import { useRouter } from 'next/router'
@@ -46,14 +46,14 @@ export const CreateListingPage = ({ id }: any) => {
 
       {id ? (
         !initLoading && (
-          <AgentHubLayout>
+          // <AgentHubLayout>
             <ListingForm id={id} />
-          </AgentHubLayout>
+          // </AgentHubLayout>
         )
       ) : (
-        <AgentHubLayout>
+        // <AgentHubLayout>
           <ListingForm id={id} />
-        </AgentHubLayout>
+        // </AgentHubLayout>
       )}
     </>
   )

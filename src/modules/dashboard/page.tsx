@@ -1,4 +1,4 @@
-import { AgentHubLayout } from '@/components/layout/hub'
+import { AgentHubLayout } from '@/components/layout/hub2'
 import React from 'react'
 
 const AgentDashboardPage = () => {

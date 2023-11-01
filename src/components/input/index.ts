@@ -8,3 +8,4 @@ export * from './file'
 export * from './location'
 export * from './switch'
 export * from './date'
+export * from "./search"
