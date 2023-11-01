@@ -38,7 +38,7 @@ export const ListingsPage: FC<IProps> = ({ type }) => {
           <ListingsFilter />
           <div className="bg-light-cultured-3 py-10 grid grid-cols-4 place-content-center place-items-center px-10">
             {listings.map((item, i) => (
-              <ListItem item={item} key={i} />
+              <ListItem detailUrl={`/browse/listings/sale/${item.id}`} item={item} key={i} />
             ))}
           </div>
           {/* <Content /> */}

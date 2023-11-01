@@ -169,19 +169,23 @@ export const DetailsContent: FC<IProps> = ({ listing, agent = false }) => {
 
                   <div className="flex items-center gap-5 px-5 py-5">
                     <Image
-                      src={listing.agent.photo}
+                      src={listing?.agent?.photo}
                       className="rounded-full"
                       width={50}
                       height={50}
                     />
 
                     <div>
-                      <h1 className="font-bold ">{listing.agent.name}</h1>
+                      <h1 className="font-bold ">{listing?.agent?.name}</h1>
                       <Rate className="!text-[20px]" allowHalf disabled defaultValue={3} />
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-5 px-5 py-5">
+                    <Link href={`/browse/listings/sale/${listing.id}/make-offer`}>
+                      <HvButton paddingY="py-3.5" title="Make Offer" />
+                    </Link>
+
                     <HvButton
                       onClick={() =>
                         setShowModal({ open: true, data: listing, content: 'date-picker' })
@@ -200,8 +204,6 @@ export const DetailsContent: FC<IProps> = ({ listing, agent = false }) => {
                         loading={chatContextLoading}
                       />
                     )}
-
-                    <HvButton paddingY="py-3.5" title="Save Property" />
                   </div>
                 </div>
 

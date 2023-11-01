@@ -27,7 +27,7 @@ export const HubLayout: React.FC<IProps> = ({ children, selectedKeys, headerSubT
   const {firebaseAuth} = useAuthContext()
   
   return (
-    <>
+    <div className='hub-layout'>
       <ConfigProvider theme={{ token: { fontFamily: "" } }}>
         <Layout hasSider className='!bg-light-cultured-3'>
           <Sider
@@ -89,7 +89,7 @@ export const HubLayout: React.FC<IProps> = ({ children, selectedKeys, headerSubT
           </Layout>
         </Layout>
       </ConfigProvider>
-    </>
+    </div>
   )
 }
 
