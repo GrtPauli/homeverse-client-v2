@@ -152,9 +152,9 @@ const items: MenuProps['items'] = [
     label: 'Transactions',
   },
   {
-    key: "contacts",
+    key: "clients",
     icon: <BiSolidContact className='!text-xl'/>,
-    label: 'Contacts',
+    label: <Link href="/hub/clients">Clients</Link>,
   },
   {
     key: "profile",

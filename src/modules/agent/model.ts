@@ -1,15 +1,12 @@
 import { UserType } from '../profile/model'
 
 export interface IAgent {
-  _id: string
+  id: string
   userId: string
   displayName: string
-  phone: string
-  photo: string
-  country: string
-  countryFlag: string
-  state: string
-  city: string
+  email: string
+  photo?: string
+  phoneNumber?: string
 }
 
 export interface IFilterProfileInput {
@@ -18,4 +15,10 @@ export interface IFilterProfileInput {
   country?: string
   state?: string
   city?: string
+}
+
+export enum AgentRequestStatus {
+  PENDING,
+  ACCEPTED,
+  REJECTED
 }

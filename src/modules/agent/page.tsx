@@ -1,14 +1,19 @@
 import { HvLoader, RegularLayout } from '@/components'
 import React, { useEffect } from 'react'
-import { Content, Hero } from './components'
+import { AgentListItem, AgentsFilter, Content, Hero } from './components'
 import { useAgentContext } from './context'
 import { UserType } from '../profile/model'
+import { useAuthContext } from '../auth/context'
 
 export const AgentsPage = () => {
-  const { getAgents, loading } = useAgentContext()
+  const { getAgents, loading, agents } = useAgentContext()
+  const { firebaseInitLoading } = useAuthContext()
+
   useEffect(() => {
-    getAgents({ userType: UserType[1] as any })
-  }, [])
+    if (firebaseInitLoading == false) {
+      getAgents()
+    }
+  }, [firebaseInitLoading])
 
   return (
     <div>
@@ -19,10 +24,13 @@ export const AgentsPage = () => {
       )}
 
       {!loading && (
-        <RegularLayout>
-          <div>
-            <Hero />
-            <Content />
+        <RegularLayout className="pt-[100px]">
+          <AgentsFilter/>
+
+          <div className="px-10 w-full flex flex-wrap gap-10 justify-center items-center mt-14">
+            {agents?.map((item, i) => (
+              <AgentListItem key={i} item={item} />
+            ))}
           </div>
         </RegularLayout>
       )}
