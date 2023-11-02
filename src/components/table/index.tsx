@@ -10,7 +10,9 @@ export const HvTable: React.FC<IProps> = (props: IProps) => {
       showHeader
       // scroll={{  x: '100vw' }}
       tableLayout="fixed"
-      className="cus-md:h-[55vh]"
+      className="!h-full"
+      rootClassName="!h-full"
+      bordered
       {...props}
     />
   );

@@ -402,3 +402,51 @@ input[type='number'] {
   width: 100px !important;
   max-width: 100px !important;
 }
+
+
+.ant-table-content{
+  overflow-x: auto !important;
+}
+.ant-table-content table{
+  white-space: nowrap !important;
+  table-layout: auto !important;
+}
+.ant-table-wrapper {
+  overflow-y: unset !important;
+}
+
+.ant-table-header {
+  background: white !important;
+}
+
+.ant-table-header .ant-table-cell {
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  background-color: white !important;
+  border-bottom: 2px solid #f0f0f0 !important;
+}
+
+.ant-table-header .ant-table-cell::before {
+  background-color: white !important;
+}
+
+.ant-table-tbody .ant-table-cell {
+  border-bottom: 2px solid #f0f0f0 !important;
+}
+
+.ant-table-header .ant-table-cell::before {
+  border-color: white !important;
+}
+
+.ant-table-pagination.ant-pagination{
+  margin: unset !important;
+  margin-top: 10px !important;
+}
+
+.ant-table.ant-table-fixed-header{
+  /* min-height: 60vh !important; */
+}
+
+.ant-table-placeholder .ant-table-cell{
+  border-bottom: 0 !important;
+}

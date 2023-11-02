@@ -4,7 +4,7 @@ import { UserType } from '../profile/model'
 import useHvNotification from '@/hooks/notification'
 import { User, updateProfile } from 'firebase/auth'
 import { useGetAgents } from './gql/query'
-import { AgentRequestStatus, IAgent, IFilterProfileInput } from './model'
+import { AgentRequestStatus, IAgent, IClient, IClientRequest, IFilterProfileInput } from './model'
 import { useAuthContext } from '../auth/context'
 import { addDoc, collection, doc, getDoc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore'
 import { UserRole } from '../auth/model'
@@ -15,6 +15,8 @@ interface IAgentState {
   initLoading: boolean
   agents: IAgent[]
   agent: IAgent
+  clientRequests: IClientRequest[]
+  clients: IClient[]
   updateUserType: (
     id: string,
     currentUser: User,
@@ -25,6 +27,9 @@ interface IAgentState {
   sendAgentRequest: () => Promise<void>
   getAgent: (id: string) => Promise<void>
   convertToAgent: () => Promise<void>
+  getClientRequests: () => Promise<void>
+  updateClientRequest: (clientRequest: IClientRequest, type: "accept" | "reject") => Promise<void>
+  getClients: () => Promise<void>
 }
 
 const AgentContext = createContext<IAgentState>({
@@ -32,6 +37,14 @@ const AgentContext = createContext<IAgentState>({
   initLoading: true,
   agent: null,
   agents: [],
+  clientRequests: [],
+  clients: [],
+  getClients() {
+    return null as any
+  },
+  getClientRequests() {
+    return null as any
+  },
   updateUserType() {
     return null as any
   },
@@ -45,6 +58,9 @@ const AgentContext = createContext<IAgentState>({
     return null as any
   },
   convertToAgent() {
+    return null as any
+  },
+  updateClientRequest(clientRequest, type) {
     return null as any
   },
 })
@@ -68,10 +84,12 @@ const AgentContextProvider: FC<IProps> = ({ children }) => {
   const { errorMsg, notificationContext, successMsg } = useHvNotification()
   const [loading, setLoading] = useState<boolean>(false)
   const [agents, setAgents] = useState<IAgent[]>([])
+  const [clientRequests, setClientRequests] = useState<IClientRequest[]>([])
+  const [clients, setClients] = useState<IClient[]>([])
   const [agent, setAgent] = useState<IAgent>()
   const { firebaseAuth, firestoreDb } = useAuthContext()
   const router = useRouter()
-
+  
   const convertToAgent = async () => {
     setLoading(true)
     return new Promise<void>((resolve, reject) => {
@@ -208,24 +226,62 @@ const AgentContextProvider: FC<IProps> = ({ children }) => {
     })
   }
 
+  const getClientRequests = async (): Promise<void> => {
+    let clientRequestsArr: any[] = []
+    setInitLoading(true)
+    const clientRequestsRef = collection(firestoreDb, 'clientRequests')
+    const q = query(clientRequestsRef, where('agent.userId', '==', firebaseAuth.currentUser.uid))
+
+    return new Promise((resolve, reject) => {
+      getDocs(q).then((data) => {
+        data.forEach((doc) => {
+          clientRequestsArr = [...clientRequestsArr, { id: doc.id, ...doc.data() }]
+        })
+
+        setInitLoading(false)
+        setClientRequests(clientRequestsArr)
+        resolve()
+      })
+    })
+  }
+
+  const getClients = async (): Promise<void> => {
+    let clientsArr: any[] = []
+    setInitLoading(true)
+    const clientsRef = collection(firestoreDb, 'clients')
+    const q = query(clientsRef, where('agentId', '==', firebaseAuth.currentUser.uid))
+
+    return new Promise((resolve, reject) => {
+      getDocs(q).then((data) => {
+        data.forEach((doc) => {
+          clientsArr = [...clientsArr, { id: doc.id, ...doc.data() }]
+        })
+
+        setInitLoading(false)
+        setClients(clientsArr)
+        resolve()
+      })
+    })
+  }
+
   const sendAgentRequest = async (): Promise<void> => {
     setLoading(true)
     return new Promise<void>((resolve, reject) => {
-      addDoc(collection(firestoreDb, 'agentRequests'), {
+      addDoc(collection(firestoreDb, 'clientRequests'), {
         agent: {
           userId: agent.userId,
           displayName: agent.displayName,
           photo: agent?.photo || null,
           email: agent.email
         },
-        sender: {
+        client: {
           userId: firebaseAuth.currentUser.uid,
           photo: firebaseAuth.currentUser.photoURL,
           displayName: firebaseAuth.currentUser.displayName,
           email: firebaseAuth.currentUser.email
         },
         status: AgentRequestStatus.PENDING,
-        message: "",
+        message: "This is my optional message",
         createdAt: serverTimestamp()
       }).then(() => {
         setLoading(false)
@@ -241,9 +297,44 @@ const AgentContextProvider: FC<IProps> = ({ children }) => {
     })
   }
 
+  const updateClientRequest = async (clientRequest: IClientRequest, type: "accept" | "reject"): Promise<void> => {
+    setLoading(true)
+    return new Promise((resolve, reject) => {
+      const clientRequestRef = doc(firestoreDb, 'clientRequests', clientRequest.id)
+      if(type == "accept"){
+        updateDoc(clientRequestRef, { status: AgentRequestStatus.ACCEPTED }).then(() => {
+          addDoc(collection(firestoreDb, 'clients'), {
+            agentId: firebaseAuth.currentUser.uid,
+            client: {
+              ...clientRequest.client
+            },
+            createdAt: serverTimestamp()
+          }).then(() => {
+            setLoading(false)
+            resolve()
+            successMsg('Success', 'Client request accepted')
+            router.push('/hub/clients')
+          })
+        })
+      } else {
+        updateDoc(clientRequestRef, { status: AgentRequestStatus.REJECTED })
+        .then(() => {
+          setLoading(false)
+          resolve()
+          successMsg('Success', 'Client request rejected')
+        })
+      }
+    })
+  }
+
   return (
     <AgentContext.Provider
       value={{
+        clients,
+        getClients,
+        updateClientRequest,
+        clientRequests,
+        getClientRequests,
         agent,
         sendAgentRequest,
         getAgent,

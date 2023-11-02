@@ -22,3 +22,34 @@ export enum AgentRequestStatus {
   ACCEPTED,
   REJECTED
 }
+
+export interface IClientRequest {
+  id: string
+  agent: {
+    displayName: string
+    photo: string
+    userId: string
+    email: string
+  }
+  client: {
+    displayName: string
+    photo: string
+    userId: string
+    email: string
+  }
+  status: AgentRequestStatus
+  message: string
+  createdAt: any
+}
+
+export interface IClient {
+  id: string
+  agentId: string
+  client: {
+    displayName: string
+    photo: string
+    userId: string
+    email: string
+  }
+  createdAt: any
+}

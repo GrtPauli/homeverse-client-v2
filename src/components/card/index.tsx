@@ -36,7 +36,7 @@ export const HvCard: FC<IProps> = ({
       <div
         className={
           className ||
-          `bg-light h-full border py-8 px-6 gap-8 items-center rounded-lg grid grid-cols-2 md:flex md:justify-between`
+          `bg-white h-full border py-8 px-6 gap-8 items-center rounded-lg grid grid-cols-2 md:flex md:justify-between`
         }
       >
         {items?.map((item, i) => (
@@ -48,7 +48,7 @@ export const HvCard: FC<IProps> = ({
           >
             <div className="flex gap-10 items-center justify-between mb-0.5">
               <h1 className="font-bold text-xl md:text-2xl">{item.title}</h1>
-              <div className="bg-light rounded-lg shadow-lg  p-2">
+              <div className="bg-white rounded-lg shadow-lg  p-2">
                 {item.icon}
               </div>
             </div>
@@ -63,7 +63,7 @@ export const HvCard: FC<IProps> = ({
   return (
     <div
       className={
-        `bg-light h-full ${className} rounded-lg border ${
+        `bg-white h-full ${className} rounded-lg shadow-md ${
           children ? "w-full" : "md:max-w-[250px] w-full h-full flex items-center justify-center"
         }  
         ${children ? "sm:p-5 p-3" : "sm:py-10 sm:px-6 py-5 px-3"}`
@@ -84,7 +84,7 @@ export const HvCard: FC<IProps> = ({
               className={
                 iconContainerClassName
                   ? iconContainerClassName
-                  : "bg-light rounded-lg shadow-lg p-2 cus-xs:shadow-md cus-xs:p-1 cus-xs:-mt-0.5"
+                  : "bg-white rounded-lg borde pt-1 cus-xs:shadow-md cus-xs:p-1 cus-xs:-mt-0.5"
               }
             >
               {icon}
