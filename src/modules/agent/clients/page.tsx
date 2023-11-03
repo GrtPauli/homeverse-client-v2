@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { useAgentContext } from '../context'
 import { HvCard, HvLoader } from '@/components'
 import {HiUserGroup} from "react-icons/hi"
+import { ClientsTable } from './components'
 
 const AgentClientsPage = () => {
   const { getClients, initLoading, clients } = useAgentContext()
@@ -26,7 +27,7 @@ const AgentClientsPage = () => {
 
       {!initLoading && (
         <HubLayout
-          selectedKeys={["clients"]}
+          selectedKeys={["clients", "my-clients"]}
           headerTitle='My Clients'
           headerSubTitle='Lorem ipsum dolor sit amet consectetur.'
         >
@@ -40,7 +41,7 @@ const AgentClientsPage = () => {
             </div>
 
             <HvCard>
-              {/* <ClientRequestsTable/> */}
+             <ClientsTable/>
             </HvCard>
           </div>
         </HubLayout>

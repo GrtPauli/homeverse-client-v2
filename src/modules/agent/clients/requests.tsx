@@ -26,7 +26,7 @@ const AgentClientRequestsPage = () => {
 
       {!initLoading && (
         <HubLayout
-            selectedKeys={["clients"]}
+            selectedKeys={["clients", "clients-requests"]}
             headerTitle='Client Requests'
             headerSubTitle='Lorem ipsum dolor sit amet consectetur.'
         >

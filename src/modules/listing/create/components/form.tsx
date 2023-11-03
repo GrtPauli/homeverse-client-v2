@@ -95,7 +95,7 @@ export const ListingForm: FC<IProps> = ({ id }) => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full pt-3">
       {/* <div className="mb-8">
         <h1 className="font-black text-3xl mb-1">{listing ? 'Create Listing' : 'Edit Listing'}</h1>
         <p className="text-sm text-colors-cadet mb-5">
@@ -104,7 +104,7 @@ export const ListingForm: FC<IProps> = ({ id }) => {
         </p>
       </div> */}
 
-      <div className="w-full bg-light-white rounded-lg shadow-lg p-8 pt-2">
+      <div className="w-full bg-light-white rounded-lg shadow-lg p-8 pt-1.5">
         <Formik
           initialValues={{
             price: listing?.price || null,

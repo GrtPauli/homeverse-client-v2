@@ -1,4 +1,10 @@
-export interface IUser {}
+export interface IUser {
+  userId: string
+  displayName: string
+  email: string
+  photo?: string
+  phoneNumber?: string
+}
 
 export interface IAuthUserInput {
   displayName: string

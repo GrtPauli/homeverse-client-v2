@@ -154,7 +154,19 @@ const items: MenuProps['items'] = [
   {
     key: "clients",
     icon: <BiSolidContact className='!text-xl'/>,
-    label: <Link href="/hub/clients">Clients</Link>,
+    label: "Clients",
+    children: [
+      {
+        key: "my-clients",
+        icon: <BsFillHouseFill className='!text-lg'/>,
+        label: <Link href="/hub/clients">My Clients</Link>,
+      },
+      {
+        key: "clients-requests",
+        icon: <BsFillHouseAddFill className='!text-lg'/>,
+        label: <Link href="/hub/clients/requests">Client Requests</Link>,
+      }
+    ]
   },
   {
     key: "profile",

@@ -13,16 +13,20 @@ import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 import { uid } from 'uid'
 import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 import { useAuthContext } from '../auth/context'
+import { IUser } from '../auth/model'
+import { IClient } from '../agent/model'
 
 interface IListingState {
   initLoading: boolean
   loading: boolean
   filterLoading: boolean
+  clientForListing: IClient
   createListing: (listing: IListing, photos: any[]) => Promise<void>
   getUserListings: (filter?: IUserListingFilter) => Promise<void>
   getListings: (filter?: IListingFilter) => Promise<void>
   getListing: (id: string, noLoading?: boolean) => Promise<void>
   updateListing: (id: string, listing: Partial<IListing>) => Promise<void>
+  getClientForListing: (id: string) => Promise<void>
   listing: Partial<IListing>
   listings: Partial<IListing[]>
   userListings: IListing[]
@@ -32,6 +36,10 @@ const ListingContext = createContext<IListingState>({
   initLoading: true,
   loading: false,
   filterLoading: false,
+  clientForListing: null,
+  getClientForListing(id) {
+    return null as any
+  },
   createListing(listing) {
     return null as any
   },
@@ -72,6 +80,7 @@ const ListingContextProvider: FC<IProps> = ({ children }) => {
   const [userListings, setUserListings] = useState<IListing[]>([])
   const [listing, setListing] = useState<Partial<IListing>>({})
   const [listings, setListings] = useState<Partial<IListing[]>>([])
+  const [clientForListing, setClientForListing] = useState<IClient>()
 
   const createListingQuery = useCreateListing((rs: any) => {})
   const getUserListingsQuery = useGetUserListings((rs: any) => {})
@@ -135,6 +144,23 @@ const ListingContextProvider: FC<IProps> = ({ children }) => {
           })
         })
       })
+    })
+  }
+
+  const getClientForListing = async (id: string): Promise<void> => {
+    setInitLoading(true)
+    return new Promise((resolve, reject) => {
+      const clientRef = doc(firestoreDb, 'clients', id)
+      getDoc(clientRef)
+        .then((rs) => {
+          setClientForListing({
+            id: rs.id,
+            ...rs.data(),
+          } as any)          
+          resolve()
+        })
+        .catch((err) => reject(err))
+        .finally(() => setInitLoading(false))
     })
   }
 
@@ -274,6 +300,8 @@ const ListingContextProvider: FC<IProps> = ({ children }) => {
   return (
     <ListingContext.Provider
       value={{
+        clientForListing,
+        getClientForListing,
         filterLoading,
         updateListing,
         initLoading,

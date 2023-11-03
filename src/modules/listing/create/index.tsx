@@ -14,27 +14,36 @@ import { useListingContext } from '../context'
 import { useAuthContext } from '@/modules/auth/context'
 import { useRouter } from 'next/router'
 import { ListingForm } from './components'
+import { HubLayout } from '@/components/layout/hub'
 
-export const CreateListingPage = ({ id }: any) => {
+interface IProps {
+  listingId?: string
+  clientId?: string
+}
+
+export const CreateListingPage: React.FC<IProps> = ({ clientId, listingId }) => {
   const [country, setCountry] = useState<any>(null)
   const [countryFlag, setCountryFlag] = useState<any>(null)
   const [state, setState] = useState<any>(null)
   const [city, setCity] = useState<any>(null)
   const [photos, setPhotos] = useState<IListingImage[]>([])
-  const { createListing, loading, initLoading, getListing, listing, updateListing } =
-    useListingContext()
-  const { firebaseAuth } = useAuthContext()
+  const { clientForListing, getClientForListing, initLoading, getListing, listing, updateListing } = useListingContext()
+  const { firebaseInitLoading } = useAuthContext()
   const router = useRouter()
 
   useEffect(() => {
-    if (id) {
-      getListing(id)
+    if (firebaseInitLoading == false) {
+      if (listingId) {
+        getListing(listingId)
+      } else if(clientId) {
+        getClientForListing(clientId)
+      }    
     }
-  }, [])
+  }, [firebaseInitLoading])
 
   return (
     <>
-      {id ? (
+      {clientId || listingId ? (
         initLoading && (
           <div className="flex h-screen w-full justify-center items-center">
             <HvLoader loading={initLoading} size="lg" />
@@ -44,16 +53,27 @@ export const CreateListingPage = ({ id }: any) => {
         <></>
       )}
 
-      {id ? (
+      {clientId || listingId ? (
         !initLoading && (
-          // <AgentHubLayout>
-            <ListingForm id={id} />
-          // </AgentHubLayout>
+          <HubLayout
+              selectedKeys={["listings", "create-listing"]}
+              headerTitle={
+                clientId ? `Create Listing for ${clientForListing.client.displayName}`
+                : "Create Listing"
+              }
+              headerSubTitle='Lorem ipsum dolor sit amet consectetur.'
+          >
+            <ListingForm id={listingId} />
+          </HubLayout>
         )
       ) : (
-        // <AgentHubLayout>
-          <ListingForm id={id} />
-        // </AgentHubLayout>
+        <HubLayout
+            selectedKeys={["listings", "create-listing"]}
+            headerTitle='Create Listing'
+            headerSubTitle='Lorem ipsum dolor sit amet consectetur.'
+        >
+          <ListingForm id={listingId} />
+        </HubLayout>
       )}
     </>
   )
